@@ -1,22 +1,37 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-require('./bootstrap');
-
-window.Vue = require('vue');
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+import Vue from 'vue';
+import sample from './data';
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        title: sample.title,
+        address: sample.address,
+        about: sample.about,
+        headerImageStyle: {
+            'background-image': 'url(images/header.jpg)'
+        },
+        amenities: sample.amenities,
+        prices: sample.prices,
+        contracted: true,
+        modalOpen: false
+    },
+    watch: {
+        modalOpen: function (newValue) {
+            const className = 'modal-open';
+            newValue ? document.body.classList.add(className) : document.body.classList.remove(className);
+        }
+    },
+    methods: {
+        escapeKeyListener: function (evt) {
+            if (evt.keyCode === 27 && this.modalOpen) {
+                this.modalOpen = false;
+            }
+        }
+    },
+    created: function () {
+        document.addEventListener('keyup', this.escapeKeyListener);
+    },
+    destroy: function () {
+        document.removeEventListener('keyup', this.escapeKeyListener);
+    }
 });
