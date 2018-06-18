@@ -11,9 +11,14 @@
   },
   "devDependencies": {
     "axios": "^0.17",
+    "browser-sync": "^2.24.4",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "core-js": "^2.5.7",
     "cross-env": "^5.1",
+    "dotenv": "^6.0.0",
     "laravel-mix": "^1.4",
-    "vue": "^2.5.3"
+    "vue": "^2.5.3",
+    "vue-router": "^3.0.1"
   },
   "dependencies": {
     "font-awesome": "^4.7.0",
