@@ -40,8 +40,8 @@
     import HeaderImage from './HeaderImage';
     import FeatureList from './FeatureList';
 
-    let model = JSON.parse(window.vuebnb_listing_model);
-    model = populateAmenitiesAndPrices(model);
+    let serverData = JSON.parse(window.vuebnb_server_data);
+    model = populateAmenitiesAndPrices(serverData.listing);
 
     export default {
         name: "ListingPage",
