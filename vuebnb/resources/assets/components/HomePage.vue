@@ -2,7 +2,7 @@
     <div class="home-container">
         <div v-for="(group, country) in listing_groups" class="listing-summary-group">
             <h1>Places in {{ country }}</h1>
-            <div>
+            <div class="listing-summaries">
                 <listing-summary v-for="listing in group" :listing="listing" :key="listing.id"></listing-summary>
             </div>
         </div>
@@ -14,7 +14,8 @@
     import ListingSummary from './ListingSummary';
 
     let serverData = JSON.parse(window.vuebnb_server_data);
-    let listing_groups = groupByCountry(serverData.listing);
+    let listing_groups = groupByCountry(serverData.listings);
+    console.log(listing_groups);
 
     export default {
         name: "HomePage",

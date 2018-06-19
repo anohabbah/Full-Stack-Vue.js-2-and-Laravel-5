@@ -3,27 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Listing;
-use function Sodium\add;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 
 class ListingController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getHomeWeb()
     {
         $data = Listing::all([
             'id', 'address', 'title', 'price_per_night'
         ]);
         $data->transform(function ($listing) {
-            $listing->thumnb = asset('images/' . $listing->id . '/Image_1_thumb.jpg');
+            $listing->thumb = asset('images/' . $listing->id . '/Image_1_thumb.jpg');
             return $listing;
         });
-        $data = collect(['listing' => $data->toArray()]);
+        $data = collect(['listings' => $data->toArray()]);
         return view('app', ['data' => $data]);
     }
+
     /**
      * @param Listing $listing
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function getListingApi(Listing $listing)
+    public function getListingApi(Listing $listing): JsonResponse
     {
         $data = $this->getListing($listing);
 
@@ -32,7 +37,7 @@ class ListingController extends Controller
 
     /**
      * @param Listing $listing
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getListingWeb(Listing $listing)
     {
@@ -46,7 +51,8 @@ class ListingController extends Controller
      * @param $id
      * @return mixed
      */
-    private function addImageUrls($model, $id) {
+    private function addImageUrls($model, $id)
+    {
         for ($i = 1; $i <= 4; ++$i) {
             $model['image_' . $i] = asset('images/' . $id . '/Image_' . $i . '.jpg');
         }
@@ -54,7 +60,12 @@ class ListingController extends Controller
         return $model;
     }
 
-    private function getListing(Listing $listing) {
+    /**
+     * @param Listing $listing
+     * @return Collection
+     */
+    private function getListing(Listing $listing): Collection
+    {
         $model = $listing->toArray();
         $model = $this->addImageUrls($model, $listing->id);
 

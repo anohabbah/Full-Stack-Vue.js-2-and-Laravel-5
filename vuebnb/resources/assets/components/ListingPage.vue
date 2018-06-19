@@ -17,7 +17,7 @@
                             <span>{{ amenity.title }}</span>
                         </template>
                     </feature-list>
-                    <feature-list title="Prices" :item="prices">
+                    <feature-list title="Prices" :items="prices">
                         <template slot-scope="price">
                             {{ price.title }}: <strong>{{ price.value }}</strong>
                         </template>
@@ -41,7 +41,8 @@
     import FeatureList from './FeatureList';
 
     let serverData = JSON.parse(window.vuebnb_server_data);
-    model = populateAmenitiesAndPrices(serverData.listing);
+    let model = populateAmenitiesAndPrices(serverData.listing);
+    console.log(model);
 
     export default {
         name: "ListingPage",

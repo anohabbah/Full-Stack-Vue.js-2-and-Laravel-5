@@ -1,4 +1,4 @@
-import 'core-js/fn/object/assign';
+// import 'core-js/fn/object/assign';
 import Vue from 'vue';
 
 import router from './router';

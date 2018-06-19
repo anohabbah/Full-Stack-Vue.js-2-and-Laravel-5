@@ -6,7 +6,7 @@
                 <h1>vuebnb</h1>
             </router-link>
         </div>
-        <render-view></render-view>
+        <router-view></router-view>
     </div>
 </template>
 
