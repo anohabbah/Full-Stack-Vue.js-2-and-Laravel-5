@@ -30,7 +30,7 @@
         },
         methods: {
             toggleSaved() {
-                this.$store.commit('toggleSaved', this.id);
+                this.$store.dispatch('toggleSaved', this.id);
             }
         }
     }

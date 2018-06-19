@@ -12,6 +12,8 @@
 */
 Route::get('/', 'ListingController@getHomeWeb');
 
-Route::get('/saved', 'ListingController@getHomeWeb');
+Route::get('/saved', 'ListingController@getHomeWeb')->middleware('auth');
 
 Route::get('/listings/{listing}', 'ListingController@getListingWeb');
+
+Auth::routes();

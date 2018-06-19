@@ -6,12 +6,17 @@ use App\Listing;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class ListingController extends Controller
 {
     public function addMetaData(Collection $collection, Request $request)
     {
-        return $collection->merge(['path' => $request->getPathInfo()]);
+        return $collection->merge([
+            'path' => $request->getPathInfo(),
+            'auth' => Auth::check(),
+            'saved' => Auth::check() ? Auth::user()->saved : []
+        ]);
     }
 
     /**
@@ -21,7 +26,7 @@ class ListingController extends Controller
     public function getHomeWeb(Request $request)
     {
         $data = $this->getListingSummaries();
-        $this->addMetaData($data, $request);
+        $data = $this->addMetaData($data, $request);
         return view('app', ['data' => $data]);
     }
 
@@ -52,7 +57,7 @@ class ListingController extends Controller
     public function getListingWeb(Listing $listing, Request $request)
     {
         $data = $this->getListing($listing);
-        $this->addMetaData($data, $request);
+        $data = $this->addMetaData($data, $request);
         return view('app', compact('data'));
     }
 
