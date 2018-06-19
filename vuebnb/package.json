@@ -18,7 +18,8 @@
     "dotenv": "^6.0.0",
     "laravel-mix": "^1.4",
     "vue": "^2.5.3",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "dependencies": {
     "font-awesome": "^4.7.0",

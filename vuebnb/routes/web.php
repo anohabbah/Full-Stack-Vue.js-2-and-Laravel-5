@@ -12,4 +12,6 @@
 */
 Route::get('/', 'ListingController@getHomeWeb');
 
+Route::get('/saved', 'ListingController@getHomeWeb');
+
 Route::get('/listings/{listing}', 'ListingController@getListingWeb');
