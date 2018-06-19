@@ -7,12 +7,16 @@
             </router-link>
         </div>
         <router-view></router-view>
+        <footer-component></footer-component>
     </div>
 </template>
 
 <script>
+    import FooterComponent from './FooterComponent';
+
     export default {
-        name: "App"
+        name: "App",
+        components: {FooterComponent}
     }
 </script>
 

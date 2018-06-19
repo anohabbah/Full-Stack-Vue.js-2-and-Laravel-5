@@ -4,24 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Listing;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class ListingController extends Controller
 {
+    public function addMetaData(Collection $collection, Request $request)
+    {
+        return $collection->merge(['path' => $request->getPathInfo()]);
+    }
+
     /**
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getHomeWeb()
+    public function getHomeWeb(Request $request)
     {
-        $data = Listing::all([
-            'id', 'address', 'title', 'price_per_night'
-        ]);
-        $data->transform(function ($listing) {
-            $listing->thumb = asset('images/' . $listing->id . '/Image_1_thumb.jpg');
-            return $listing;
-        });
-        $data = collect(['listings' => $data->toArray()]);
+        $data = $this->getListingSummaries();
+        $this->addMetaData($data, $request);
         return view('app', ['data' => $data]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getHomeApi()
+    {
+        return response()->json($this->getListingSummaries());
     }
 
     /**
@@ -37,12 +46,13 @@ class ListingController extends Controller
 
     /**
      * @param Listing $listing
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getListingWeb(Listing $listing)
+    public function getListingWeb(Listing $listing, Request $request)
     {
         $data = $this->getListing($listing);
-
+        $this->addMetaData($data, $request);
         return view('app', compact('data'));
     }
 
@@ -70,5 +80,20 @@ class ListingController extends Controller
         $model = $this->addImageUrls($model, $listing->id);
 
         return collect(['listing' => $model]);
+    }
+
+    /**
+     * @return Listing[]|\Illuminate\Database\Eloquent\Collection|Collection
+     */
+    private function getListingSummaries()
+    {
+        $data = Listing::all([
+            'id', 'address', 'title', 'price_per_night'
+        ]);
+        $data->transform(function ($listing) {
+            $listing->thumb = asset('images/' . $listing->id . '/Image_1_thumb.jpg');
+            return $listing;
+        });
+        return collect(['listings' => $data->toArray()]);
     }
 }

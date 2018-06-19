@@ -5,13 +5,24 @@ body {
     margin: 0;
 }
 
-.container {
+.listings-container {
     margin: 0 auto;
 }
 
 @media (min-width: 744px) {
-    .container {
+    .listings-container {
         width: 696px;
+    }
+}
+
+.home-container {
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+@media (min-width: 1131px) {
+    .home-container {
+        width: 1080px;
     }
 }
 

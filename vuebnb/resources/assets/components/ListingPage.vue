@@ -1,7 +1,7 @@
 <template>
     <div>
-        <header-image @header-clicked="openModal" :image-url="images[0]"></header-image>
-        <div class="container">
+        <header-image @header-clicked="openModal" v-if="images[0]" :image-url="images[0]"></header-image>
+        <div class="listings-container">
             <div class="heading">
                 <h1>{{ title }}</h1>
                 <p>{{ address }}</p>
@@ -33,6 +33,7 @@
 
 <script>
     import {populateAmenitiesAndPrices} from '../js/helpers';
+    import routeMixin from '../js/route-mixin';
 
     import ExpandableText from './ExpandableText';
     import ImageCarousel from './ImageCarousel';
@@ -40,16 +41,23 @@
     import HeaderImage from './HeaderImage';
     import FeatureList from './FeatureList';
 
-    let serverData = JSON.parse(window.vuebnb_server_data);
-    let model = populateAmenitiesAndPrices(serverData.listing);
-    console.log(model);
-
     export default {
         name: "ListingPage",
+        mixins: [routeMixin],
         data() {
-            return Object.assign(model, {})
+            return {
+                title: null,
+                address: null,
+                about: null,
+                amenities: [],
+                prices: [],
+                images: []
+            }
         },
         methods: {
+            assignData({listing}) {
+                Object.assign(this.$data, populateAmenitiesAndPrices(listing))
+            },
             openModal() {
                 this.$refs.imagemodal.modalOpen = true;
             }
