@@ -34,7 +34,8 @@ router.beforeEach((to, from, next) => {
         next();
     }
     else if (!serverData.path || to.path !== serverData.path) {
-        axios.get(`/api${to.path}`).then(({data}) => {
+        let url = to.name !== 'home' ? `${window.app_url}api${to.path}` : `${window.app_url}api`;
+        axios.get(url).then(({data}) => {
             store.commit('addData', {route: to.name, data});
             next();
         });

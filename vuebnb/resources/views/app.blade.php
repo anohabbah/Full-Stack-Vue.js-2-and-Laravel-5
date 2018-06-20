@@ -12,6 +12,7 @@
         window.vuebnb_server_data = "{!! addslashes(json_encode($data)) !!}";
         window.csrf_token = '{{ csrf_token() }}';
         window.cdn_url = '{{ cdn('') }}';
+        window.app_url = '{{ asset('', config()->get('app.secure')) }}';
     </script>
 </head>
 <body>
