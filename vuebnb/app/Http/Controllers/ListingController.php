@@ -96,7 +96,7 @@ class ListingController extends Controller
             'id', 'address', 'title', 'price_per_night'
         ]);
         $data->transform(function ($listing) {
-            $listing->thumb = asset('images/' . $listing->id . '/Image_1_thumb.jpg');
+            $listing->thumb = cdn('images/' . $listing->id . '/Image_1_thumb.jpg');
             return $listing;
         });
         return collect(['listings' => $data->toArray()]);

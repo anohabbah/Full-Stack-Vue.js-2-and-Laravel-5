@@ -1,32 +1,32 @@
 <template>
     <div>
         <header-image
-                @header-clicked="openModal"
-                v-if="listing.images[0]"
                 :image-url="listing.images[0]"
-                :id="listing.id"></header-image>
+                @header-clicked="openModal"
+                :id="listing.id"
+        ></header-image>
         <div class="listings-container">
             <div class="heading">
                 <h1>{{ listing.title }}</h1>
                 <p>{{ listing.address }}</p>
-                <hr>
-                <div class="about">
-                    <h3>About this listing</h3>
-                    <expandable-text>{{ listing.about }}</expandable-text>
-                </div>
-                <div class="lists">
-                    <feature-list title="Amenities" :items="listing.amenities">
-                        <template slot-scope="amenity">
-                            <i class="fa fa-lg" :class="amenity.icon"></i>
-                            <span>{{ amenity.title }}</span>
-                        </template>
-                    </feature-list>
-                    <feature-list title="Prices" :items="listing.prices">
-                        <template slot-scope="price">
-                            {{ price.title }}: <strong>{{ price.value }}</strong>
-                        </template>
-                    </feature-list>
-                </div>
+            </div>
+            <hr>
+            <div class="about">
+                <h3>About this listing</h3>
+                <expandable-text>{{ listing.about }}</expandable-text>
+            </div>
+            <div class="lists">
+                <feature-list title="Amenities" :items="listing.amenities">
+                    <template slot-scope="amenity">
+                        <i class="fa fa-lg" :class="amenity.icon"></i>
+                        <span>{{ amenity.title }}</span>
+                    </template>
+                </feature-list>
+                <feature-list title="Prices" :items="listing.prices">
+                    <template slot-scope="price">
+                        {{ price.title }}: <strong>{{ price.value }}</strong>
+                    </template>
+                </feature-list>
             </div>
         </div>
         <modal-window ref="imagemodal">
@@ -34,41 +34,54 @@
         </modal-window>
     </div>
 </template>
-
 <script>
-    import {populateAmenitiesAndPrices} from '../js/helpers';
+    import { populateAmenitiesAndPrices } from '../js/helpers';
 
-    import ExpandableText from './ExpandableText';
-    import ImageCarousel from './ImageCarousel';
-    import ModalWindow from './ModalWindow';
-    import HeaderImage from './HeaderImage';
-    import FeatureList from './FeatureList';
+    import ImageCarousel from './ImageCarousel.vue';
+    import ModalWindow from './ModalWindow.vue';
+    import FeatureList from './FeatureList.vue';
+    import HeaderImage from './HeaderImage.vue';
+    import ExpandableText from './ExpandableText.vue';
 
     export default {
-        name: "ListingPage",
+        components: {
+            ImageCarousel,
+            ModalWindow,
+            FeatureList,
+            HeaderImage,
+            ExpandableText
+        },
         computed: {
             listing() {
-                return populateAmenitiesAndPrices(this.$store.getters.getListing(parseInt(this.$route.params.listing)));
+                return populateAmenitiesAndPrices(
+                    this.$store.getters.getListing(this.$route.params.listing)
+                );
             }
         },
         methods: {
             openModal() {
                 this.$refs.imagemodal.modalOpen = true;
             }
-        },
-        components: {
-            ExpandableText,
-            ImageCarousel,
-            ModalWindow,
-            HeaderImage,
-            FeatureList
         }
     }
 </script>
-
 <style>
+    .heading {
+        margin-bottom: 2em;
+    }
+
+    .heading h1 {
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .heading p {
+        font-size: 15px;
+        color: #767676;;
+    }
+
     .about {
-        margin-top: 2em;
+        margin: 2em 0;
     }
 
     .about h3 {
