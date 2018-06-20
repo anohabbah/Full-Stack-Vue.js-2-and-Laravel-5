@@ -2,7 +2,7 @@
     <div>
         <div id="toolbar">
             <router-link :to="{name: 'home'}">
-                <img class="icon" src="/images/logo.png">
+                <img class="icon" :src="logoUrl">
                 <h1>vuebnb</h1>
             </router-link>
             <ul class="links">
@@ -30,7 +30,16 @@
 
     export default {
         name: "App",
-        data() {return {csrf_token: window.csrf_token}},
+        data() {
+            return {
+                csrf_token: window.csrf_token
+            }
+        },
+        computed: {
+            logoUrl() {
+                return `${window.cdn_url || ''}images/logo.png`;
+            }
+        },
         components: {FooterComponent},
         methods: {
             logout() {

@@ -69,7 +69,7 @@ class ListingController extends Controller
     private function addImageUrls($model, $id)
     {
         for ($i = 1; $i <= 4; ++$i) {
-            $model['image_' . $i] = asset('images/' . $id . '/Image_' . $i . '.jpg');
+            $model['image_' . $i] = cdn('images/' . $id . '/Image_' . $i . '.jpg');
         }
 
         return $model;

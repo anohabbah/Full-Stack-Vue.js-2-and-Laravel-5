@@ -27,7 +27,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     let serverData = JSON.parse(window.vuebnb_server_data);
-    console.log(serverData);
     if(
         to.name === 'listing'
             ? store.getters.getListing(parseInt(to.params.listing))
